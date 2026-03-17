@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prishi's Dreamland 💖</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --p-pink: #ff69b4; --p-dark: #d63384; }
+        body {
+            margin: 0; padding: 20px 0; min-height: 100vh; display: flex;
+            justify-content: center; align-items: center; font-family: 'Poppins', sans-serif;
+            background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fbc2eb, #a1c4fd);
+            background-size: 400% 400%; animation: gradientBG 12s ease infinite; overflow-y: auto;
+        }
+        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.3); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 30px; padding: 30px;
+            text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.1); width: 90%; max-width: 500px; margin: auto;
+        }
+        h1 { font-family: 'Dancing Script', cursive; font-size: 4rem; color: white; margin: 0; text-shadow: 2px 4px 10px rgba(0,0,0,0.1); animation: float 3s ease-in-out infinite; }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        .message-box { background: rgba(255, 255, 255, 0.5); padding: 15px; border-radius: 20px; margin: 20px 0; min-height: 50px; color: var(--p-dark); font-weight: 600; }
+        .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        button { padding: 12px; border: none; border-radius: 50px; cursor: pointer; font-weight: 600; background: white; color: var(--p-pink); transition: 0.3s; }
+        button:hover { transform: scale(1.05); background: var(--p-pink); color: white; }
+        .scrapbook { display: flex; justify-content: center; gap: 15px; margin-top: 30px; flex-wrap: wrap; }
+        .polaroid { background: white; padding: 8px 8px 20px 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-radius: 5px; width: 100px; cursor: pointer; transition: 0.3s; }
+        .polaroid:hover { transform: scale(1.1) rotate(0deg) !important; z-index: 100; }
+        .polaroid img { width: 100%; border-radius: 3px; }
+        .particle { position: fixed; pointer-events: none; z-index: 999; animation: rise 2s ease-out forwards; }
+        @keyframes rise { to { transform: translateY(-100px); opacity: 0; } }
+    </style>
+</head>
+<body>
+
+    <audio id="mySong">
+        <source src="song.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="glass-card">
+        <h1>Hi Prishi!</h1>
+        <p style="color: white; opacity: 0.9;">You’re too cute to be bored! ✨</p>
+        <div class="message-box" id="msg">Click a picture to play your song! 🎵</div>
+        <div class="btn-grid">
+            <button onclick="update('compliment')">Compliment 💖</button>
+            <button onclick="update('affirmation')">Affirmation ☀️</button>
+            <button onclick="update('memory')">Memory 💭</button>
+            <button onclick="update('cute')">Cuteness Test 🌡️</button>
+        </div>
+        <div class="scrapbook">
+            <div class="polaroid" style="transform: rotate(-5deg)" onclick="update('pic1')">
+                <img src="https://i.postimg.cc/h4ZrPwqT/Whats-App-Image-2026-03-17-at-4-48-32-PM.jpg">
+            </div>
+            <div class="polaroid" style="transform: rotate(5deg)" onclick="update('pic2')">
+                <img src="https://i.postimg.cc/HxpqHK1P/Whats-App-Image-2026-03-17-at-4-48-31-PM.jpg">
+            </div>
+            <div class="polaroid" style="transform: rotate(-3deg)" onclick="update('pic3')">
+                <img src="https://i.postimg.cc/9FWYbhY3/Whats-App-Image-2026-03-17-at-4-58-06-PM.jpg">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const data = {
+            compliment: ["You're the prettiest!", "Your smile is magic ✨", "You're 10/10 impressive!"],
+            affirmation: ["You are strong.", "You are loved.", "Today is your day!"],
+            memory: ["Remember our best laugh?", "The first time I saw you 💖"],
+            pic1: "A memory that makes me smile! 🎵",
+            pic2: "Prishi looking adorable! 🎵",
+            pic3: "I'll keep this memory forever! 🎵"
+        };
+
+        function update(type) {
+            const box = document.getElementById('msg');
+            const song = document.getElementById('mySong');
+            
+            // This starts the music!
+            song.play();
+
+            if(Array.isArray(data[type])) {
+                box.innerText = data[type][Math.floor(Math.random() * data[type].length)];
+            } else {
+                box.innerText = data[type];
+            }
+            for(let i=0; i<10; i++) { createHeart(); }
+        }
+
+        function createHeart() {
+            const h = document.createElement('div');
+            h.innerHTML = ['❤️','💖','✨','🌸'][Math.floor(Math.random()*4)];
+            h.className = 'particle';
+            h.style.left = Math.random() * 100 + 'vw';
+            h.style.top = Math.random() * 100 + 'vh';
+            h.style.fontSize = (Math.random() * 20 + 20) + 'px';
+            document.body.appendChild(h);
+            setTimeout(() => h.remove(), 2000);
+        }
+    </script>
+</body>
+</html>
